@@ -21,15 +21,19 @@
                 background-color: rgba(85, 85, 85, 0.137);
                 justify-content: center;
                 align-items: center;
-                overflow:hidden;
+                overflow: hidden;
             }
-            div {
+            #mainContent {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
                 padding: 20px;
+                transition: filter 0.3s ease;
+            }
+            #mainContent.blurred {
+                filter: blur(4px) brightness(0.7);
             }
             button {
                 font-size: 13px;
@@ -39,17 +43,21 @@
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
                 box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.2);
                 transform: scale(1.02);
-                transition: border-radius 1s ease-in-out;
-                transition: box-shadow 0.3s ease-in-out;
+                transition: all 0.3s ease;
                 cursor: pointer;
                 margin-top: 20px;
             }
+            button[class="login"] {
+                background-color: rgb(33, 70, 233);
+                color: white;
+            }
             button:hover {
-                border: none;
-                border-radius: 2px;
                 box-shadow: 2px 2px 5px -1px black;
                 box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-                transition: transform 0.1s ease-in-out;
+                transform: scale(1.05);
+            }
+            button[class="login"]:hover {
+                box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.2);
             }
             button::after {
                 content: "";
@@ -64,25 +72,21 @@
                 transform: scale(1, 1) translate(-50%);
                 transform-origin: 50% 50%;
             }
+            button[class="login"]::after {
+                background: #ffffff;
+            }
             button:focus:not(:active)::after {
                 animation: ripple 0.6s ease-out;
             }
             @keyframes ripple {
-                0% {
-                    transform: scale(0,0);
-                    opacity: 0.5;
-                }
-                100% {
-                    transform: scale(20,20);
-                    opacity: 0;
-                }
+                0% { transform: scale(0,0); opacity: 0.5; }
+                100% { transform: scale(20,20); opacity: 0; }
             }
             img {
                 display: block;
                 border-radius: 100%;
                 width: 20rem;
                 margin: 0 auto;
-                /* border: 8px solid white; */
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
                 transition: all 0.3s ease;
             }
@@ -94,38 +98,31 @@
             .text {
                 white-space: nowrap;
                 border-right: 2px solid transparent;
-                animation: typing 2.5s steps(16, end), blink-caret .75s step-end infinite;
+                animation: typing 2s steps(24, end), blink-caret .75s step-end infinite;
                 word-break: break-all;
                 overflow: hidden;
             }
             @keyframes typing {
-                from {width: 0;}
-                to {width: 18.5rem;}
+                from { width: 0; }
+                to { width: 18.5rem; }
             }
             @keyframes blink-caret {
-                from, to {border-color: transparent;}
-                50% {border-color: currentColor;}
+                from, to { border-color: transparent; }
+                50% { border-color: currentColor; }
             }
 
             .text[contenteditable="true"] {
                 padding: 5px;
                 outline: none;
             }
-            /* 新增的样式 */
+
             h1 {
                 transform: scale(1.02);
-                display: inline-block; /* 确保transform不影响布局 */
-            }
-
-            h1 {
+                display: inline-block;
                 transition: transform 0.3s ease;
                 cursor: default;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
                 user-select: none;
             }
-
             h1:hover {
                 transform: scale(1.05);
             }
@@ -141,18 +138,194 @@
                 50% { transform: translate3d(0, -4px, 0); }
             }
 
+            /* 登录弹窗样式 - 确保位于最顶层 */
+            .login-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 9999;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .login-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                background-color: white;
+                padding: 30px 25px;
+                border-radius: 15px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+                width: 300px;
+                animation: fadeIn 0.3s ease-in-out;
+                position: relative;
+                z-index: 10000;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+                to { opacity: 1; transform: translateY(0) scale(1); }
+            }
+
+            .login-form {
+                width: 100%;
+            }
+
+            .login-label {
+                display: block;
+                margin: 8px 0 4px;
+                font-size: 14px;
+                text-align: left;
+                padding-left: 12px;
+            }
+            
+            .login-label[for=remember] {
+                display: inline-block;
+                font-size: 12px;
+                margin: 8px 0 15px;
+                vertical-align: middle;
+                padding-left: 5px;
+            }
+
+            .login-input {
+                display: block;
+                border: none;
+                border-radius: 15px;
+                box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+                width: calc(100% - 24px);
+                height: 25px;
+                background-color: rgba(85, 85, 85, 0.137);
+                padding: 8px 12px;
+                margin: 0 auto 10px;
+                font-size: 13px;
+                transition: all 0.3s ease;
+            }
+            .login-input:focus {
+                outline: none;
+                box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(33, 70, 233, 0.3);
+            }
+            
+            .login-submit {
+                display: block;
+                border: none;
+                border-radius: 15px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                width: 100%;
+                height: 38px;
+                background-color: rgb(33, 70, 233);
+                color: white;
+                padding: 10px;
+                margin: 10px auto 0;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            
+            .login-submit:hover {
+                background-color: rgb(25, 60, 220);
+                transform: translateY(-1px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .login-checkbox {
+                cursor: pointer;
+            }
+
+            /* 关闭按钮 */
+            .close-btn {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+                opacity: 0.5;
+                transition: opacity 0.2s;
+            }
+            .close-btn:hover {
+                opacity: 1;
+            }
+            .close-btn::before, .close-btn::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 18px;
+                height: 2px;
+                background: #333;
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+            .close-btn::after {
+                transform: translate(-50%, -50%) rotate(-45deg);
+            }
         </style>
     </head>
     <body onselectstart="return false">
-        <div>
+        <div id="mainContent">
             <a href="https://b23.tv/gUBvkN8"><img id="shake" onclick="shake(this.id)" src="site.png"></a>
-            <div class="container"><div class="typed-out"><h1 class="text" contenteditable="true">你好，我是floaq_</h1></div></div>
+            <div class="container"><div class="typed-out"><h1 class="text" contenteditable="true" id="greetingText">嗨，我是floaq_</h1></div></div>
+            <button class="login" id="login">登录</button>
             <button><a href="https://b23.tv/gUBvkN8">关于</a></button>
             <button id="contactBtn">联系</button>
             <button><a href="https://github.com/AlphaRandom8546/floaq_">仓库</a></button>
         </div>
 
+        <!-- 登录弹窗 -->
+        <div class="login-modal" id="loginModal">
+            <div class="login-container">
+                <div class="close-btn" id="closeBtn"></div>
+                <h1>Macrohard</h1>
+                <form class="login-form">
+                    <label class="login-label">用户名</label>
+                    <input type="text" class="login-input" id="loginUsername" autocomplete="username">
+                    <label class="login-label">密码</label>
+                    <input type="password" class="login-input" id="loginPassword" autocomplete="current-password">
+                    <span class="checkBx">
+                        <input type="checkbox" id="remember" class="login-checkbox">
+                        <label class="login-label" for="remember">30天内自动登录</label>
+                    </span>
+                    <input type="submit" class="login-submit" value="登录">
+                </form>
+            </div>
+        </div>
+
         <script>
+            // 页面加载时检查cookie
+            document.addEventListener('DOMContentLoaded', function() {
+                checkCookie();
+            });
+
+            function checkCookie() {
+                let cookies = document.cookie
+                    .split('; ')
+                    .map(cookie => cookie.split('='));
+                let cookieObj = {};
+                for (let i = 0; i < cookies.length; i++) {
+                    let name = cookies[i][0];
+                    let value = cookies[i][1];
+                    cookieObj[name] = decodeURIComponent(value);
+                }
+                
+                const greetingText = document.getElementById('greetingText');
+                const loginBtn = document.getElementById('login');
+                
+                if (document.cookie && cookieObj.username) {
+                    // 如果有cookie，显示用户名并隐藏登录按钮
+                    greetingText.textContent = `嗨，${cookieObj.username}`;
+                    loginBtn.style.display = 'none';
+                } else {
+                    // 如果没有cookie，显示默认文本和登录按钮
+                    greetingText.textContent = '嗨，我是floaq_';
+                    loginBtn.style.display = 'block';
+                }
+            }
+
             document.getElementById('contactBtn').addEventListener('click', function() {
                 const qqNumber = '3293275512';
                 
@@ -161,6 +334,92 @@
                 }).catch(err => {
                     alert(`QQ号：${qqNumber} （复制失败，请手动复制）`);
                 });
+            });
+
+            // 登录功能
+            const loginBtn = document.getElementById('login');
+            const loginModal = document.getElementById('loginModal');
+            const closeBtn = document.getElementById('closeBtn');
+            const loginForm = document.querySelector('.login-form');
+            const usernameInput = document.getElementById('loginUsername');
+            const passwordInput = document.getElementById('loginPassword');
+            const rememberCheckbox = document.getElementById('remember');
+            const mainContent = document.getElementById('mainContent');
+
+            // 显示登录弹窗
+            function showLoginModal() {
+                loginModal.style.display = 'flex';
+                mainContent.classList.add('blurred');
+                document.documentElement.style.overflow = 'hidden';
+                
+                // 检查是否有cookie
+                let cookies = document.cookie
+                    .split('; ')
+                    .map(cookie => cookie.split('='));
+                let cookieObj = {};
+                for (let i = 0; i < cookies.length; i++) {
+                    let name = cookies[i][0];
+                    let value = cookies[i][1];
+                    cookieObj[name] = decodeURIComponent(value);
+                }
+                
+                if (document.cookie && cookieObj.username) {
+                    usernameInput.value = cookieObj.username;
+                    rememberCheckbox.checked = true;
+                    passwordInput.focus();
+                } else {
+                    usernameInput.focus();
+                }
+            }
+
+            // 关闭登录弹窗
+            function closeLoginModal() {
+                loginModal.style.display = 'none';
+                mainContent.classList.remove('blurred');
+                document.documentElement.style.overflow = '';
+            }
+
+            // 点击登录按钮
+            loginBtn.addEventListener('click', showLoginModal);
+
+            // 点击关闭按钮
+            closeBtn.addEventListener('click', closeLoginModal);
+
+            // 点击弹窗外部
+            loginModal.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    closeLoginModal();
+                }
+            });
+
+            // 按ESC键关闭
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && loginModal.style.display === 'flex') {
+                    closeLoginModal();
+                }
+            });
+
+            // 处理登录表单提交
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = usernameInput.value;
+                const password = passwordInput.value;
+                const remember = rememberCheckbox.checked;
+                
+                if (remember && username) {
+                    const key = 'username';
+                    const value = encodeURIComponent(username);
+                    const days = 30 * 24 * 60 * 60;
+                    document.cookie = `${key}=${value}; max-age=${days}`;
+                }
+                
+                // 更新问候语并隐藏登录按钮
+                const greetingText = document.getElementById('greetingText');
+                greetingText.textContent = `嗨，${username}`;
+                document.getElementById('login').style.display = 'none';
+                
+                closeLoginModal();
             });
         </script>
     </body>

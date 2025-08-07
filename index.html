@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>floaq的博客</title>
-        <link rel="icon" type="image/png" href="https://i1.hdslb.com/bfs/new_dyn/157d99427cea84d797b71f001da6c5423546387253823547.png@480w_480h_1e_1c.webp">
+        <link rel="icon" type="image/png" href="site.png">
 
         <style>
             * {
@@ -111,14 +111,19 @@
                 padding: 5px;
                 outline: none;
             }
+            /* 新增的样式 */
             h1 {
                 transform: scale(1.02);
-                display: inline-block;
+                display: inline-block; /* 确保transform不影响布局 */
             }
 
             h1 {
                 transition: transform 0.3s ease;
                 cursor: default;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
             }
 
             h1:hover {
@@ -140,7 +145,7 @@
     </head>
     <body onselectstart="return false">
         <div>
-            <a href="https://b23.tv/gUBvkN8"><img id="shake" onclick="shake(this.id)" src="https://i1.hdslb.com/bfs/new_dyn/157d99427cea84d797b71f001da6c5423546387253823547.png@480w_480h_1e_1c.webp"></a>
+            <a href="https://b23.tv/gUBvkN8"><img id="shake" onclick="shake(this.id)" src="site.png"></a>
             <div class="container"><div class="typed-out"><h1 class="text" contenteditable="true">你好，我是floaq_</h1></div></div>
             <button><a href="https://b23.tv/gUBvkN8">关于</a></button>
             <button id="contactBtn">联系</button>
@@ -159,5 +164,4 @@
             });
         </script>
     </body>
-
 </html>

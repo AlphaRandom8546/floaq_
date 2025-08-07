@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh_cn">
+    <head>
+        <meta charset="utf-8">
+        <title>floaq的博客</title>
+        <link rel="icon" type="image/png" href="https://i1.hdslb.com/bfs/new_dyn/157d99427cea84d797b71f001da6c5423546387253823547.png@480w_480h_1e_1c.webp">
+
+        <style>
+            * {
+                font-family: "等距更纱黑体 SC", '等线';
+                caret-color: transparent;
+            }
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            body {
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                background-color: rgba(85, 85, 85, 0.137);
+                justify-content: center;
+                align-items: center;
+                overflow:hidden;
+            }
+            div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 20px;
+            }
+            button {
+                font-size: 13px;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 2px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.2);
+                transform: scale(1.02);
+                transition: border-radius 1s ease-in-out;
+                transition: box-shadow 0.3s ease-in-out;
+                cursor: pointer;
+                margin-top: 20px;
+            }
+            button:hover {
+                border: none;
+                border-radius: 2px;
+                box-shadow: 2px 2px 5px -1px black;
+                box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+                transition: transform 0.1s ease-in-out;
+            }
+            button::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 5px;
+                height: 5px;
+                background: #807777a2;
+                opacity: 0;
+                border-radius: 100%;
+                transform: scale(1, 1) translate(-50%);
+                transform-origin: 50% 50%;
+            }
+            button:focus:not(:active)::after {
+                animation: ripple 0.6s ease-out;
+            }
+            @keyframes ripple {
+                0% {
+                    transform: scale(0,0);
+                    opacity: 0.5;
+                }
+                100% {
+                    transform: scale(20,20);
+                    opacity: 0;
+                }
+            }
+            img {
+                display: block;
+                border-radius: 100%;
+                width: 20rem;
+                margin: 0 auto;
+                /* border: 8px solid white; */
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease;
+            }
+            img:hover {
+                transform: scale(1.02);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .text {
+                white-space: nowrap;
+                border-right: 2px solid transparent;
+                animation: typing 2.5s steps(16, end), blink-caret .75s step-end infinite;
+                word-break: break-all;
+                overflow: hidden;
+            }
+            @keyframes typing {
+                from {width: 0;}
+                to {width: 18.5rem;}
+            }
+            @keyframes blink-caret {
+                from, to {border-color: transparent;}
+                50% {border-color: currentColor;}
+            }
+
+            .text[contenteditable="true"] {
+                padding: 5px;
+                outline: none;
+            }
+            /* 新增的样式 */
+            h1 {
+                transform: scale(1.02);
+                display: inline-block; /* 确保transform不影响布局 */
+            }
+
+            h1 {
+                transition: transform 0.3s ease;
+                cursor: default;
+            }
+
+            h1:hover {
+                transform: scale(1.05);
+            }
+
+            .shake {
+                animation: shake 800ms ease-in-out;
+            }
+            @keyframes shake {
+                10%, 90% { transform: translate3d(0, -1px, 0); }
+                20%, 80% { transform: translate3d(0, +2px, 0); }
+                30%, 70% { transform: translate3d(0, -4px, 0); }
+                40%, 60% { transform: translate3d(0, +4px, 0); }
+                50% { transform: translate3d(0, -4px, 0); }
+            }
+
+        </style>
+    </head>
+    <body>
+        <div>
+            <a href="https://b23.tv/gUBvkN8"><img id="shake" onclick="shake(this.id)" src="https://i1.hdslb.com/bfs/new_dyn/157d99427cea84d797b71f001da6c5423546387253823547.png@480w_480h_1e_1c.webp"></a>
+            <div class="container"><div class="typed-out"><h1 class="text" contenteditable="true">你好，我是floaq_</h1></div></div>
+            <button><a href="https://b23.tv/gUBvkN8">关于</a></button>
+            <button id="contactBtn">联系</button>
+            <button><a href="https://github.com/AlphaRandom8546/floaq_">仓库</a></button>
+        </div>
+
+        <script>
+            document.getElementById('contactBtn').addEventListener('click', function() {
+                const qqNumber = '3293275512';
+                
+                navigator.clipboard.writeText(qqNumber).then(() => {
+                    alert(`QQ号：${qqNumber} 欢迎联系（已复制到剪贴板）`);
+                }).catch(err => {
+                    alert(`QQ号：${qqNumber} （复制失败，请手动复制）`);
+                });
+            });
+        </script>
+    </body>
+</html>
